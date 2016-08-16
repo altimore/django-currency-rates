@@ -7,6 +7,15 @@ Notes
 
 This is a simple fork from the original project just to add the __str__ method for django on python3.
 
+
+Installation
+============
+
+if installed remove the previous version
+`pip uninstall django-currency_rates`
+
+`pip install https://github.com/altimore/django-currency-rates/archive/master.zip`
+
 OpenExchange
 ============
 
