@@ -2,6 +2,14 @@
 django-currency-rates
 =====================
 
+Notes
+=====
+
+This is a simple fork from the original project just to add the __str__ method for django on python3.
+
+OpenExchange
+============
+
 Django currencies and exchange rates for django projects
 
 You need a key from http://openexchangerates.org/ to get the echange rates
@@ -33,7 +41,7 @@ the schema migrations.
 If you have installed **django-currency-rates** version v0.1 or v0.2 and want to migrate,
 first you have to install South_ update the **django-currency-rates** app and then you have to execute
 the first migration as fake with ::
-   
+
     ./manage.py migrate currency_rates 0001_initial --fake
     ./manage.py migrate currency_rates
 

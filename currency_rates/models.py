@@ -1,6 +1,7 @@
 import datetime
-from django.db import models
+
 from django.conf import settings
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
@@ -23,15 +24,20 @@ class Currency(models.Model):
     code = models.CharField(_('Code'), max_length=3, unique=True)
     name = models.CharField(_('Name'), max_length=50)
     symbol = models.CharField(_('Symbol'), max_length=1, blank=True, null=True)
-    is_default = models.BooleanField(_('Default'), default=False,
+    is_default = models.BooleanField(
+        _('Default'),
+        default=False,
         help_text=_('Make this the default currency.'))
 
     class Meta:
         verbose_name = _('Currency')
         verbose_name_plural = _('Currencies')
-        ordering = ('code',)
+        ordering = ('code', )
 
     def __unicode__(self):
+        return self.code
+
+    def __str__(self):
         return self.code
 
     def save(self, **kwargs):
@@ -76,8 +82,11 @@ class ExchangeRate(models.Model):
     class Meta:
         verbose_name = _('Exchange rate')
         verbose_name_plural = _('Exchange rates')
-        unique_together = (('currency', 'date'),)
+        unique_together = (('currency', 'date'), )
         ordering = ('-date', 'currency__code')
 
     def __unicode__(self):
+        return "%s %s" % (self.currency, self.rate)
+
+    def __str__(self):
         return "%s %s" % (self.currency, self.rate)
