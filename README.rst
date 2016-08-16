@@ -12,9 +12,10 @@ Installation
 ============
 
 if installed remove the previous version
-`pip uninstall django-currency_rates`
 
-`pip install https://github.com/altimore/django-currency-rates/archive/master.zip`
+``pip uninstall django-currency_rates``
+
+``pip install https://github.com/altimore/django-currency-rates/archive/master.zip``
 
 OpenExchange
 ============
