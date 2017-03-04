@@ -1,18 +1,19 @@
-import json
-import urllib2
 import datetime
+import json
 from decimal import Decimal
-from django.core.management.base import NoArgsCommand
-from django.conf import settings
+from urllib.request import urlopen
+
 from currency_rates.models import Currency, ExchangeRate
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 
 CURRENT_RATES_URL = "http://openexchangerates.org/latest.json"
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
     help = "Get the current rates from %s" % CURRENT_RATES_URL
 
-    def handle_noargs(self, **options):
+    def handle(self, *args, **options):
 
         app_id = getattr(settings, "OPENEXCHANGERATES_APP_ID", None)
         if not app_id:
@@ -21,7 +22,7 @@ class Command(NoArgsCommand):
         base_currency = getattr(settings, "CURRENCY_RATES_DEFAULT_CODE", 'EUR')
 
         url = CURRENT_RATES_URL + "?app_id=" + app_id
-        f = urllib2.urlopen(url)
+        f = urlopen(url)
         data = json.loads(f.read())
 
         # USD is the default in OpenExchangeRates, so we don't need conversion
@@ -35,10 +36,10 @@ class Command(NoArgsCommand):
 
         ExchangeRate.objects.filter(date=date).delete()
 
-        for code, rate in data['rates'].iteritems():
+        for code, rate in data['rates'].items():
             try:
                 currency = Currency.objects.get(code=code)
             except Currency.DoesNotExist:
                 continue
-            ExchangeRate.objects.create(currency=currency,
-                            date=date, rate=conversion(rate))
+            ExchangeRate.objects.create(
+                currency=currency, date=date, rate=conversion(rate))
