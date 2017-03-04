@@ -5,17 +5,7 @@ django-currency-rates
 Notes
 =====
 
-This is a simple fork from the original project just to add the __str__ method for django on python3.
-
-
-Installation
-============
-
-if installed remove the previous version
-
-``pip uninstall django-currency_rates``
-
-``pip install https://github.com/altimore/django-currency-rates/archive/master.zip``
+This is a simple fork from the original project just to use django on python3.
 
 OpenExchange
 ============
@@ -33,27 +23,13 @@ Features
 
 Installation
 ============
+if installed remove the previous version
+``pip uninstall django-currency_rates``
 
-#. Add ``"currency_rates"`` directory to your Python path.
+#. ``pip install https://github.com/altimore/django-currency-rates/archive/master.zip``
 #. Add ``"currency_rates"`` to the ``INSTALLED_APPS`` tuple found in
    your settings file.
 #. Add ``OPENEXCHANGERATES_APP_ID`` to your setting file with an app key from http://openexchangerates.org/
-#. Run ``manage.py syncdb`` to create the new tables or ``manage.py migrate`` is you are using South_
+#. Run ``manage.py migrate``
 #. Run ``manage.py load_currencies`` to load currencies from http://openexchangerates.org/
 #. Run ``manage.py load_rates`` to load current eschange rates from http://openexchangerates.org/
-
-Migrate to v0.3
-===============
-
-On version v0.3 we changed the curency name length from 25 to 50 and we adopted south for
-the schema migrations.
-
-If you have installed **django-currency-rates** version v0.1 or v0.2 and want to migrate,
-first you have to install South_ update the **django-currency-rates** app and then you have to execute
-the first migration as fake with ::
-
-    ./manage.py migrate currency_rates 0001_initial --fake
-    ./manage.py migrate currency_rates
-
-
-.. _South: http://south.aeracode.org/
