@@ -74,7 +74,7 @@ class Currency(models.Model):
 
 
 class ExchangeRate(models.Model):
-    currency = models.ForeignKey(Currency, related_name='rates')
+    currency = models.ForeignKey(Currency, related_name='rates', on_delete=models.CASCADE)
     date = models.DateField(_('Date'), default=datetime.date.today)
     rate = models.DecimalField(_('Rate'), max_digits=12, decimal_places=6)
     created = models.DateTimeField(_('Created'), auto_now=True)
