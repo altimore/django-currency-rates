@@ -2,3 +2,4 @@ include README.rst
 include currency_rates/*
 include currency_rates/migrations/*
 include currency_rates/management/*
+recursive-include currency_rates/migrations *
