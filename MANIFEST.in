@@ -1,3 +1,4 @@
-include README.rst
+include *.rst *.txt README LICENSE AUTHORS CHANGELOG
+recursive-include currency_rates *.html *.css *.js *.py
 recursive-include currency_rates/migrations *
 recursive-include currency_rates/management *
