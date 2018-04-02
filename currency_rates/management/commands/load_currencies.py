@@ -1,5 +1,5 @@
 import json
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from django.core.management.base import NoArgsCommand
 from currency_rates.models import Currency
 
@@ -11,8 +11,8 @@ class Command(NoArgsCommand):
 
         def handle_noargs(self, **options):
 
-            f = urllib2.urlopen(CURRENCIES_URL)
+            f = urllib.request.urlopen(CURRENCIES_URL)
             currencies = json.loads(f.read())
 
-            for code, name in currencies.iteritems():
+            for code, name in currencies.items():
                 Currency.objects.get_or_create(code=code, defaults={'name': name})

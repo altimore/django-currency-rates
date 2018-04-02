@@ -15,7 +15,7 @@ class CurrencyModelTest(TestCase):
 
         currency = Currency(code='EUR', name="Euro")
 
-        self.assertEqual(unicode(currency), 'EUR')
+        self.assertEqual(str(currency), 'EUR')
 
     def test_no_rates(self):
 
@@ -77,7 +77,7 @@ class RateModelTest(TestCase):
         rate = ExchangeRate.objects.create(currency=currency,
                                      rate=Decimal("2.00"))
 
-        self.assertEqual(unicode(rate), 'EUR 2.00')
+        self.assertEqual(str(rate), 'EUR 2.00')
 
 
 class DefaultCurrencyTest(TestCase):
@@ -115,7 +115,7 @@ class LoadCurrenciesTest(TestCase):
             self.command.handle_noargs()
 
         usd = Currency.objects.get(code='USD')
-        self.assertEqual(usd.name, u"US Dollar")
+        self.assertEqual(usd.name, "US Dollar")
 
 
 class LoadRatesTest(TestCase):
@@ -186,5 +186,5 @@ class LoadRatesTest(TestCase):
         self.assertRaises(Exception, self.command.handle_noargs)
         try:
             self.command.handle_noargs()
-        except Exception, e:
+        except Exception as e:
             self.assertIn("OPENEXCHANGERATES_APP_ID", str(e))

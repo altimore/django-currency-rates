@@ -1,6 +1,6 @@
-__author__ = u'Ferran Pegueroles'
-__copyright__ = u'Copyright 2012-2013, Ferran Pegueroles'
-__credits__ = [u'Ferran Pegueroles']
+__author__ = 'Ferran Pegueroles'
+__copyright__ = 'Copyright 2012-2013, Ferran Pegueroles'
+__credits__ = ['Ferran Pegueroles']
 
 
 __license__ = 'GPL'

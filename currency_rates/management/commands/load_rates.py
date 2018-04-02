@@ -36,7 +36,7 @@ class Command(BaseCommand):
 
         ExchangeRate.objects.filter(date=date).delete()
 
-        for code, rate in data['rates'].items():
+        for code, rate in list(data['rates'].items()):
             try:
                 currency = Currency.objects.get(code=code)
             except Currency.DoesNotExist:
