@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from distutils.core import setup
-from currency_rates import  __version__, __author__, __email__
+from currency_rates import __version__, __author__, __email__
 
 
 long_description = open('README.rst').read()
@@ -15,8 +15,8 @@ setup(
     author_email=__email__,
     license='GPL',
     packages=['currency_rates',
-                'currency_rates.management',
-                'currency_rates.management.commands'],
+              'currency_rates.management',
+              'currency_rates.management.commands'],
     package_data={'openonmobile': ['fixtures/*.json']},
     data_files=[('', ['README.rst'])],
     description='Currencies & echange rates for django projects',
@@ -26,5 +26,8 @@ setup(
                  'Framework :: Django',
                  'Intended Audience :: Developers',
                  'License :: OSI Approved :: GNU General Public License (GPL)',
-                 'Topic :: Internet :: WWW/HTTP :: Dynamic Content']
+                 'Topic :: Internet :: WWW/HTTP :: Dynamic Content'],
+    py_modules=[
+        'currency_rates',
+    ],
 )
