@@ -9,7 +9,7 @@ CURRENCIES_URL = "http://openexchangerates.org/currencies.json"
 class Command(BaseCommand):
         help = "Load currencies from %s" % CURRENCIES_URL
 
-        def handle_noargs(self, **options):
+        def handle(self, **options):
 
             f = urllib.request.urlopen(CURRENCIES_URL)
             currencies = json.loads(f.read())
