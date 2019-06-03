@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
 from currency_rates import __version__, __author__, __email__
-
+from setuptools import find_packages, setup
 
 long_description = open('README.rst').read()
 
@@ -14,10 +13,7 @@ setup(
     author=__author__,
     author_email=__email__,
     license='GPL',
-    packages=['currency_rates',
-              'currency_rates.management',
-              'currency_rates.management.commands',
-              'currency_rates.migrations'],
+    packages=find_packages(),
     package_data={'openonmobile': ['fixtures/*.json']},
     data_files=[('', ['README.rst'])],
     description='Currencies & echange rates for django projects',
