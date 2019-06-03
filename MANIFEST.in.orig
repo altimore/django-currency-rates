@@ -1,8 +1,0 @@
-<<<<<<< HEAD
-include README.rst
-recursive-include currency_rates/migrations *
-recursive-include currency_rates/management *
-=======
-include *.rst *.txt README LICENSE AUTHORS CHANGELOG
-recursive-include currency_rates *.html *.css *.js *.py
->>>>>>> c8fefb49eb380ea55818e7d0e4371e8ffbccd161
