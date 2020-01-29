@@ -3,8 +3,10 @@ import datetime
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 from forex_python.converter import CurrencyRates
+
+from alpha_vantage.foreignexchange import ForeignExchange
+from pyoxr import OXRClient
 
 
 def default_currency():
@@ -20,6 +22,23 @@ def default_currency():
         pass
 
     return None
+
+
+def get_rate(from_currency, to_currency, date):
+    try:
+        c = CurrencyRates()
+        return c.get_rate(from_currency, to_currency.code, date)
+    except RatesNotAvailableError:
+
+        fx = ForeignExchange(key="K1GJWM9EPXNN4E0N")
+
+        print(
+            fx.get_currency_exchange(
+                from_currency=self.code, to_currency=to_currency.code
+            )
+        )
+
+    return rate
 
 
 class Currency(models.Model):
@@ -64,11 +83,10 @@ class Currency(models.Model):
             )
             return rate
         except ExchangeRate.DoesNotExist:
-            c = CurrencyRates()
             new_rate = ExchangeRate(
                 currency_sold=self,
                 currency_bought=to_currency,
-                rate=c.get_rate(self.code, to_currency.code, date),
+                rate=get_rate(self.code, to_currency.code, date),
                 date=date,
             )
             new_rate.save()
