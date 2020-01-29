@@ -26,7 +26,7 @@ def default_currency():
 def get_rate(from_currency, to_currency, date):
     try:
         c = CurrencyRates()
-        return c.get_rate(from_currency, to_currency.code, date)
+        return c.get_rate(from_currency, to_currency, date)
     except RatesNotAvailableError:
 
         fx = ForeignExchange(key="K1GJWM9EPXNN4E0N")
