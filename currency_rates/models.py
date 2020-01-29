@@ -6,7 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from forex_python.converter import CurrencyRates
 
 from alpha_vantage.foreignexchange import ForeignExchange
-from pyoxr import OXRClient
 
 
 def default_currency():
