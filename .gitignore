@@ -1,4 +1,4 @@
 git-author-rewrite.sh
 db.sqlite3
-*/.mypy_cache/*
+.mypy_cache/
 django_currency_rates/.mypy_cache/*

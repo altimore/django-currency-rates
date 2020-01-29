@@ -11,7 +11,7 @@ def default_currency():
     except Currency.DoesNotExist:
         pass
 
-    DEFAULT_CODE = getattr(settings, "CURRENCY_RATES_DEFAULT_CODE", 'EUR')
+    DEFAULT_CODE = getattr(settings, "CURRENCY_RATES_DEFAULT_CODE", "EUR")
     try:
         return Currency.objects.get(code=DEFAULT_CODE)
     except Currency.DoesNotExist:
@@ -21,18 +21,17 @@ def default_currency():
 
 
 class Currency(models.Model):
-    code = models.CharField(_('Code'), max_length=3, unique=True)
-    name = models.CharField(_('Name'), max_length=50)
-    symbol = models.CharField(_('Symbol'), max_length=1, blank=True, null=True)
+    code = models.CharField(_("Code"), max_length=3, unique=True)
+    name = models.CharField(_("Name"), max_length=50)
+    symbol = models.CharField(_("Symbol"), max_length=1, blank=True, null=True)
     is_default = models.BooleanField(
-        _('Default'),
-        default=False,
-        help_text=_('Make this the default currency.'))
+        _("Default"), default=False, help_text=_("Make this the default currency.")
+    )
 
     class Meta:
-        verbose_name = _('Currency')
-        verbose_name_plural = _('Currencies')
-        ordering = ('code', )
+        verbose_name = _("Currency")
+        verbose_name_plural = _("Currencies")
+        ordering = ("code",)
 
     def __unicode__(self):
         return self.code
@@ -51,9 +50,13 @@ class Currency(models.Model):
                 default_currency.save()
         super(Currency, self).save(**kwargs)
 
-    def current_rate(self):
+    def current_rate(self, to_currency):
         try:
-            return self.rates.latest('date').rate
+            return (
+                self.selling_rates.filter(currency_bought=to_currency)
+                .latest("date")
+                .rate
+            )
         except ExchangeRate.DoesNotExist:
             return None
 
@@ -67,26 +70,30 @@ class Currency(models.Model):
         """
         Convert an value in the current currency to the value in the given currency.
         """
-        result = value / self.current_rate()
-        if not currency.is_default:
-            result *= currency.current_rate()
-        return result
+        return value * self.current_rate(to_currency=currency)
+        # result = value / self.current_rate(to_currency=currency)
+        # if not currency.is_default:
+        #     result *= currency.current_rate(to_currency=currency)
+        # return result
 
 
 class ExchangeRate(models.Model):
-    currency = models.ForeignKey(Currency, related_name='rates', on_delete=models.CASCADE)
-    date = models.DateField(_('Date'), default=datetime.date.today)
-    rate = models.DecimalField(_('Rate'), max_digits=12, decimal_places=6)
-    created = models.DateTimeField(_('Created'), auto_now=True)
+    currency_sold = models.ForeignKey(
+        Currency, related_name="selling_rates", on_delete=models.CASCADE
+    )
+    currency_bought = models.ForeignKey(
+        Currency, related_name="purchase_rates", on_delete=models.CASCADE
+    )
+
+    date = models.DateField(_("Date"), default=datetime.date.today)
+    rate = models.DecimalField(_("Rate"), max_digits=12, decimal_places=6)
+    created = models.DateTimeField(_("Created"), auto_now=True)
 
     class Meta:
-        verbose_name = _('Exchange rate')
-        verbose_name_plural = _('Exchange rates')
-        unique_together = (('currency', 'date'), )
-        ordering = ('-date', 'currency__code')
-
-    def __unicode__(self):
-        return "%s %s" % (self.currency, self.rate)
+        verbose_name = _("Exchange rate")
+        verbose_name_plural = _("Exchange rates")
+        unique_together = ("currency_sold", "currency_bought", "date")
+        ordering = ("-date", "currency_sold__code", "currency_bought__code")
 
     def __str__(self):
-        return "%s %s" % (self.currency, self.rate)
+        return f"Exchange rate from {self.currency_sold} to {self.currency_bought} on {self.date} is {self.rate}"
