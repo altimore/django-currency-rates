@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from forex_python.converter import CurrencyRates
+
 
 def default_currency():
     try:
@@ -52,13 +54,21 @@ class Currency(models.Model):
 
     def current_rate(self, to_currency):
         try:
-            return (
+            rate = (
                 self.selling_rates.filter(currency_bought=to_currency)
                 .latest("date")
                 .rate
             )
+            return rate
         except ExchangeRate.DoesNotExist:
-            return None
+            c = CurrencyRates()
+            new_rate = ExchangeRate(
+                currency_sold=self,
+                currency_bought=to_currency,
+                rate=c.get_rate(self.code, to_currency.code),
+            )
+            new_rate.save()
+            return new_rate.rate
 
     def to_default(self, value):
         """
