@@ -33,7 +33,7 @@ def get_rate(from_currency, to_currency, date):
 
         print(
             fx.get_currency_exchange(
-                from_currency=self.code, to_currency=to_currency.code
+                from_currency=from_currency, to_currency=to_currency
             )
         )
 
