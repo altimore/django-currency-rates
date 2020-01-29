@@ -1,3 +1,4 @@
+import datetime
 import json
 import time
 import urllib
@@ -140,6 +141,18 @@ class LoadRatesTest(TestCase):
         to_currency = Currency(code="USD", name="Dollar")
         to_currency.save()
         self.assertEqual(currency.to_currency(value=10, currency=to_currency), 11.005)
+
+    def test_old_rate_not_in_db(self):
+        currency = Currency(code="EUR", name="Euro")
+        currency.save()
+        to_currency = Currency(code="USD", name="Dollar")
+        to_currency.save()
+        self.assertEqual(
+            currency.to_currency(
+                value=10, currency=to_currency, date=datetime.date(2000, 1, 1)
+            ),
+            10.046,
+        )
 
 
 # class LoadRatesTest(TestCase):

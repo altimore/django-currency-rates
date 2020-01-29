@@ -53,6 +53,9 @@ class Currency(models.Model):
         super(Currency, self).save(**kwargs)
 
     def current_rate(self, to_currency):
+        return self.get_rate(to_currency)
+
+    def get_rate(self, to_currency, date=datetime.date.today()):
         try:
             rate = (
                 self.selling_rates.filter(currency_bought=to_currency)
@@ -65,7 +68,8 @@ class Currency(models.Model):
             new_rate = ExchangeRate(
                 currency_sold=self,
                 currency_bought=to_currency,
-                rate=c.get_rate(self.code, to_currency.code),
+                rate=c.get_rate(self.code, to_currency.code, date),
+                date=date,
             )
             new_rate.save()
             return new_rate.rate
@@ -76,11 +80,11 @@ class Currency(models.Model):
         """
         return self.to_currency(value, default_currency())
 
-    def to_currency(self, value, currency):
+    def to_currency(self, value, currency, date=datetime.date.today()):
         """
         Convert an value in the current currency to the value in the given currency.
         """
-        return value * self.current_rate(to_currency=currency)
+        return value * self.get_rate(to_currency=currency, date=date)
         # result = value / self.current_rate(to_currency=currency)
         # if not currency.is_default:
         #     result *= currency.current_rate(to_currency=currency)
