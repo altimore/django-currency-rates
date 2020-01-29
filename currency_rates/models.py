@@ -3,7 +3,7 @@ import datetime
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from forex_python.converter import CurrencyRates
+from forex_python.converter import CurrencyRates, RatesNotAvailableError
 
 from alpha_vantage.foreignexchange import ForeignExchange
 
