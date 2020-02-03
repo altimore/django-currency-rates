@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from alpha_vantage.foreignexchange import ForeignExchange
 from currency_rates.exchangeratesorguk import ExchangeRatesOrgUk as Rate
 from forex_python.converter import CurrencyRates, RatesNotAvailableError
 
@@ -34,23 +35,24 @@ def get_rate(from_currency, to_currency, date) -> Decimal:
         # print(rate)
         return Decimal(rate)
     except RatesNotAvailableError:
-        change_rate = Rate(from_currency, to_currency, date)
-        return change_rate.get_rate()
+        try:
+            change_rate = Rate(from_currency, to_currency, date)
+            return change_rate.get_rate()
+        except:
+            # print("Trying another connector")
+            if not date or date == datetime.date.today():
+                fx = ForeignExchange(key="K1GJWM9EPXNN4E0N")
 
-        # print("Trying another connector")
-        # if not date or date == datetime.date.today():
-        #     fx = ForeignExchange(key="K1GJWM9EPXNN4E0N")
+                result, sthing = fx.get_currency_exchange_rate(
+                    from_currency=from_currency, to_currency=to_currency
+                )
+                # print(result["5. Exchange Rate"])
 
-        #     result, sthing = fx.get_currency_exchange_rate(
-        #         from_currency=from_currency, to_currency=to_currency
-        #     )
-        #     # print(result["5. Exchange Rate"])
-
-        #     return Decimal(result["5. Exchange Rate"])
-        # else:
-        #     raise RatesNotAvailableError(
-        #         f"We need to implement either an automatic historic get rate for exotic currencies, either a manual input. Impossible to get rate for {from_currency} to {to_currency} on the {date}"
-        #     )
+                return Decimal(result["5. Exchange Rate"])
+            else:
+                raise RatesNotAvailableError(
+                    f"We need to implement either an automatic historic get rate for exotic currencies, either a manual input. Impossible to get rate for {from_currency} to {to_currency} on the {date}"
+                )
 
 
 class Currency(models.Model):
