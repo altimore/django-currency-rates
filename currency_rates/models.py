@@ -1,11 +1,13 @@
 import datetime
+from decimal import Decimal
 
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from forex_python.converter import CurrencyRates, RatesNotAvailableError
 
-from alpha_vantage.foreignexchange import ForeignExchange
+from currency_rates.exchangeratesorguk import ExchangeRatesOrgUk as Rate
+
+# from forex_python.converter import CurrencyRates, RatesNotAvailableError
 
 
 def default_currency():
@@ -23,21 +25,33 @@ def default_currency():
     return None
 
 
-def get_rate(from_currency, to_currency, date):
-    try:
-        c = CurrencyRates()
-        return c.get_rate(from_currency, to_currency, date)
-    except RatesNotAvailableError:
+def get_rate(from_currency, to_currency, date) -> Decimal:
+    if from_currency == to_currency:
+        return Decimal(1)
+    # try:
+    change_rate = Rate(from_currency, to_currency, date)
+    return change_rate.get_rate()
 
-        fx = ForeignExchange(key="K1GJWM9EPXNN4E0N")
+    # c = CurrencyRates()
+    # rate = c.get_rate(from_currency, to_currency, date)
+    # # print(rate)
+    # return Decimal(rate)
+    # except RatesNotAvailableError:
+    #     pass
+    # print("Trying another connector")
+    # if not date or date == datetime.date.today():
+    #     fx = ForeignExchange(key="K1GJWM9EPXNN4E0N")
 
-        print(
-            fx.get_currency_exchange(
-                from_currency=from_currency, to_currency=to_currency
-            )
-        )
+    #     result, sthing = fx.get_currency_exchange_rate(
+    #         from_currency=from_currency, to_currency=to_currency
+    #     )
+    #     # print(result["5. Exchange Rate"])
 
-    return rate
+    #     return Decimal(result["5. Exchange Rate"])
+    # else:
+    #     raise RatesNotAvailableError(
+    #         f"We need to implement either an automatic historic get rate for exotic currencies, either a manual input. Impossible to get rate for {from_currency} to {to_currency} on the {date}"
+    #     )
 
 
 class Currency(models.Model):
@@ -101,7 +115,8 @@ class Currency(models.Model):
         """
         Convert an value in the current currency to the value in the given currency.
         """
-        return value * self.get_rate(to_currency=currency, date=date)
+        rate = self.get_rate(to_currency=currency, date=date)
+        return value * rate
         # result = value / self.current_rate(to_currency=currency)
         # if not currency.is_default:
         #     result *= currency.current_rate(to_currency=currency)
