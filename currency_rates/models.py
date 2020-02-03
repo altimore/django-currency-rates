@@ -28,31 +28,33 @@ def default_currency():
 def get_rate(from_currency, to_currency, date) -> Decimal:
     if from_currency == to_currency:
         return Decimal(1)
-    try:
+    if not date or date == datetime.date.today():
+        fx = ForeignExchange(key="K1GJWM9EPXNN4E0N")
 
-        c = CurrencyRates()
-        rate = c.get_rate(from_currency, to_currency, date)
-        # print(rate)
-        return Decimal(rate)
-    except RatesNotAvailableError:
-        try:
-            change_rate = Rate(from_currency, to_currency, date)
-            return change_rate.get_rate()
-        except:
-            # print("Trying another connector")
-            if not date or date == datetime.date.today():
-                fx = ForeignExchange(key="K1GJWM9EPXNN4E0N")
+        result, sthing = fx.get_currency_exchange_rate(
+            from_currency=from_currency, to_currency=to_currency
+        )
+        # print(result["5. Exchange Rate"])
 
-                result, sthing = fx.get_currency_exchange_rate(
-                    from_currency=from_currency, to_currency=to_currency
-                )
-                # print(result["5. Exchange Rate"])
+        return Decimal(result["5. Exchange Rate"])
+    else:
+        change_rate = Rate(from_currency, to_currency, date)
+        return change_rate.get_rate()
 
-                return Decimal(result["5. Exchange Rate"])
-            else:
-                raise RatesNotAvailableError(
-                    f"We need to implement either an automatic historic get rate for exotic currencies, either a manual input. Impossible to get rate for {from_currency} to {to_currency} on the {date}"
-                )
+    # try:
+
+    #     c = CurrencyRates()
+    #     rate = c.get_rate(from_currency, to_currency, date)
+    #     # print(rate)
+    #     return Decimal(rate)
+    # except RatesNotAvailableError:
+    #     try:
+    #     except:
+    #         # print("Trying another connector")
+    #         else:
+    #             raise RatesNotAvailableError(
+    #                 f"We need to implement either an automatic historic get rate for exotic currencies, either a manual input. Impossible to get rate for {from_currency} to {to_currency} on the {date}"
+    #             )
 
 
 class Currency(models.Model):
