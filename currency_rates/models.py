@@ -1,13 +1,13 @@
 import datetime
 from decimal import Decimal
 
+from alpha_vantage.foreignexchange import ForeignExchange
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from alpha_vantage.foreignexchange import ForeignExchange
-from currency_rates.exchangeratesorguk import ExchangeRatesOrgUk as Rate
 from forex_python.converter import CurrencyRates, RatesNotAvailableError
+
+from currency_rates.exchangeratesorguk import ExchangeRatesOrgUk as Rate
 
 
 def default_currency():
@@ -92,12 +92,9 @@ class Currency(models.Model):
 
     def get_rate(self, to_currency, date=datetime.date.today()):
         try:
-            rate = (
-                self.selling_rates.filter(currency_bought=to_currency)
-                .latest("date")
-                .rate
-            )
-            return rate
+            rate = self.selling_rates.get(currency_bought=to_currency, date=date)
+            if rate:
+                return rate.rate
         except ExchangeRate.DoesNotExist:
             new_rate = ExchangeRate(
                 currency_sold=self,
