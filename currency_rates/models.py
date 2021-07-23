@@ -1,4 +1,5 @@
 import datetime
+from datetime import date, timedelta
 from decimal import Decimal
 
 from alpha_vantage.foreignexchange import ForeignExchange
@@ -152,3 +153,6 @@ class ExchangeRate(models.Model):
 
     def __str__(self):
         return f"Exchange rate from {self.currency_sold} to {self.currency_bought} on {self.date} is {self.rate}"
+
+    def is_past_due(self):
+        return self.date < date.today() - timedelta(days=15)
