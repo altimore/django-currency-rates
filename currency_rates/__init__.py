@@ -4,5 +4,5 @@ __credits__ = ["Ferran Pegueroles"]
 
 
 __license__ = "GPL"
-__version__ = "0.6"
+__version__ = "0.7"
 __email__ = "ferran@pegueroles.com"
