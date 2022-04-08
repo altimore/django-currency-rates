@@ -9,3 +9,4 @@ django_currency_rates/.mypy_cache/*
 __pycache__/
 build/
 *.lock
+dist/

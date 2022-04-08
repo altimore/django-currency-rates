@@ -1,7 +1,7 @@
 from django_select2.forms import ModelSelect2MultipleWidget, ModelSelect2Widget
 from utils.mixins import Select2InclusiveFiltering
 
-from .models import Currency, Organization
+from .models import Currency
 
 
 class CurrencyWidget(ModelSelect2Widget):

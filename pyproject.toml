@@ -3,10 +3,20 @@ name = "django-currency_rates"
 version = "0.8.1"
 description = "Currencies & echange rates for django projects"
 license = "GPL"
-classifiers = ["Development Status :: 5 - Production/Stable", "Environment :: Web Environment", "Framework :: Django", "Intended Audience :: Developers", "License :: OSI Approved :: GNU General Public License (GPL)", "Topic :: Internet :: WWW/HTTP :: Dynamic Content"]
+classifiers = [
+            "Development Status :: 5 - Production/Stable",
+            "Environment :: Web Environment",
+            "Framework :: Django",
+            "Intended Audience :: Developers",
+            "License :: OSI Approved :: GNU General Public License (GPL)",
+            "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
+            ]
 homepage = "http://bitbucket.org/ferranp/django-currency-rates"
 authors = ["Ferran Pegueroles <ferran@pegueroles.com>"]
 readme = "README.rst"
+packages = [
+    { include = "currency_rates" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.9.6"
