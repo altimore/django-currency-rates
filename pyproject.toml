@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "django-currency_rates"
+version = "0.8.1"
+description = "Currencies & echange rates for django projects"
+license = "GPL"
+classifiers = ["Development Status :: 5 - Production/Stable", "Environment :: Web Environment", "Framework :: Django", "Intended Audience :: Developers", "License :: OSI Approved :: GNU General Public License (GPL)", "Topic :: Internet :: WWW/HTTP :: Dynamic Content"]
+homepage = "http://bitbucket.org/ferranp/django-currency-rates"
+authors = ["Ferran Pegueroles <ferran@pegueroles.com>"]
+readme = "README.rst"
+
+[tool.poetry.dependencies]
+python = "^3.9.6"
+Django = "^4.0.3"
+pre-commit = "^2.18.1"
+django-select2 = "^7.10.0"

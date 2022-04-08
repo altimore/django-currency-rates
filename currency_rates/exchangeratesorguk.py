@@ -34,7 +34,7 @@ class ExchangeRatesOrgUk(object):
         )
         change_rate_text = daily_rate_link_tag.parent.previous_sibling.text
 
-        self.rate = re.findall("[-+]?[0-9]*\.[0-9]+$", change_rate_text)[-1]
+        self.rate = re.findall(r"[-+]?[0-9]*\.[0-9]+$", change_rate_text)[-1]
 
         print(self.rate)
         return Decimal(self.rate)

@@ -1,3 +1,0 @@
-django==1.4
-coverage
-mock==0.8.0South==0.7.6
