@@ -18,7 +18,6 @@ class ExchangeRatesOrgUk(object):
 
     def get_rate(self):
         url = f"https://www.exchangerates.org.uk/{self.from_currency_code}-{self.to_currency_code}-spot-exchange-rates-history-{self.date.year}.html"
-        print(url)
 
         html_code = requests.get(url).text
 
@@ -36,10 +35,16 @@ class ExchangeRatesOrgUk(object):
 
         self.rate = re.findall(r"[-+]?[0-9]*\.[0-9]+$", change_rate_text)[-1]
 
-        print(self.rate)
         return Decimal(self.rate)
+
+
+def get_rate(
+    from_currency, to_currency, amount=1, date=datetime.date.today()
+) -> Decimal:
+    rate = ExchangeRatesOrgUk(from_currency, to_currency, date)
+    return rate.get_rate()
 
 
 if __name__ == "__main__":
     date = datetime.date(2019, 12, 19)
-    rate = Rate("MUR", "USD", date)
+    rate = ExchangeRatesOrgUk("MUR", "USD", date)

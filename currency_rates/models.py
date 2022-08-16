@@ -2,13 +2,11 @@ import datetime
 from datetime import date, timedelta
 from decimal import Decimal
 
-from alpha_vantage.foreignexchange import ForeignExchange
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from forex_python.converter import CurrencyRates, RatesNotAvailableError
 
-from currency_rates.exchangeratesorguk import ExchangeRatesOrgUk as Rate
+from converters import get_rate
 
 
 def default_currency():
@@ -24,47 +22,6 @@ def default_currency():
         pass
 
     return None
-
-
-def get_rate(from_currency, to_currency, date) -> Decimal:
-    if from_currency == to_currency:
-        return Decimal(1)
-    if not date or date == datetime.date.today():
-        # print("getting today's rate")
-        try:
-            fx = ForeignExchange(key="K1GJWM9EPXNN4E0N")
-
-            result, sthing = fx.get_currency_exchange_rate(
-                from_currency=from_currency, to_currency=to_currency
-            )
-            # print(result["5. Exchange Rate"])
-            return Decimal(result["5. Exchange Rate"])
-
-        except ValueError:
-            # alphavantage doesn't have theses currencies conversions.
-            # using foreignexchange instead
-
-            # print("alpha vantage doesn't work, trying forex_python")
-
-            # try:
-            c = CurrencyRates()
-            rate = c.get_rate(from_currency, to_currency, date)
-            return Decimal(rate)
-            # except RatesNotAvailableError:
-            #     print(
-            #         f"We need to implement either an automatic historic get rate for exotic currencies, either a manual input. Impossible to get rate for {from_currency} to {to_currency} on the {date}"
-            #     )
-
-    else:
-        # print("getting the rate for ", date)
-        # try:
-        c = CurrencyRates()
-        rate = c.get_rate(from_currency, to_currency, date)
-        return Decimal(rate)
-        # except RatesNotAvailableError:
-        #     f"We need to implement either an automatic historic get rate for exotic currencies, either a manual input. Impossible to get rate for {from_currency} to {to_currency} on the {date}"
-        # change_rate = Rate(from_currency, to_currency, date)
-        # return change_rate.get_rate()
 
 
 class Currency(models.Model):
