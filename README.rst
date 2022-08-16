@@ -14,6 +14,10 @@ Django currencies and exchange rates for django projects
 
 You need a key from http://openexchangerates.org/ to get the echange rates
 
+exchangeratesapi.io
+===================
+Same here https://exchangeratesapi.io/documentation/
+
 Features
 ========
 
@@ -34,10 +38,14 @@ if installed remove the previous version
 #. Run ``manage.py load_currencies`` to load currencies from http://openexchangerates.org/
 #. Run ``manage.py load_rates`` to load current eschange rates from http://openexchangerates.org/
 
+
+Add to your settings.py :
+`EXCHANGERATESAPIIO_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"`
+
 Extra
 =======
-If you use django-select2 you can use the widgets as follow
-``
+If you use django-select2 you can use the widgets as follow :
+```
 from companies.widgets import OrganizationWidget
 from currency_rates.widgets import CurrencyWidget
 
@@ -50,4 +58,4 @@ class BankAccountForm(forms.ModelForm):
             "bank": OrganizationWidget,
             "currency": CurrencyWidget,
         }
-``
+```

@@ -1,10 +1,10 @@
 import datetime
 from datetime import date, timedelta
-from decimal import Decimal
 
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from forex_python.converter import CurrencyRates, RatesNotAvailableError
 
 from .converters import get_rate
 
@@ -66,7 +66,9 @@ class Currency(models.Model):
             new_rate = ExchangeRate(
                 currency_sold=self,
                 currency_bought=to_currency,
-                rate=get_rate(self.code, to_currency.code, date),
+                rate=get_rate(
+                    from_currency=self.code, to_currency=to_currency.code, date=date
+                ),
                 date=date,
             )
             new_rate.save()

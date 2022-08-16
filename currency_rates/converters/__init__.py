@@ -3,8 +3,8 @@ from decimal import Decimal
 
 from rich.console import Console
 
-from exchangeratesapiio import get_rate as get_rate_exchangeratesapiio
-from exchangeratesorguk import get_rate as get_rate_exchangeratesorguk
+from .exchangeratesapiio import get_rate as get_rate_exchangeratesapiio
+from .exchangeratesorguk import get_rate as get_rate_exchangeratesorguk
 
 # from alphavantage import get_rate as get_rate_alphavantage
 

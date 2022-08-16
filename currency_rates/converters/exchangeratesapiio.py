@@ -4,6 +4,7 @@ import datetime
 from decimal import Decimal
 
 import requests
+from django.conf import settings
 
 EXCHANGERATESAPIIO_API_KEY = getattr(
     settings, "EXCHANGERATESAPIIO_API_KEY", "YOURAPIKEYHERE"
