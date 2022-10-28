@@ -1,3 +1,9 @@
+## 0.10.0 (2022-10-29)
+
+### Feat
+
+- add a redirect mixin for catching ratenotfound error
+
 ## 0.9.3 (2022-10-28)
 
 ### Fix

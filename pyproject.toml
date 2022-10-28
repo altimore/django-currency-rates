@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-currency_rates"
-version = "0.9.3"
+version = "0.10.0"
 description = "Currencies & echange rates for django projects"
 license = "GPL"
 classifiers = [
@@ -33,7 +33,7 @@ commitizen = "^2.36.0"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.9.3"
+version = "0.10.0"
 tag_format = "$version"
 version_files = [
   "pyproject.toml:version",
