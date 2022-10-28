@@ -1,5 +1,6 @@
 import datetime
 from datetime import date, timedelta
+from functools import partialmethod
 
 from django.conf import settings
 from django.db import models
@@ -31,6 +32,8 @@ class Currency(models.Model):
     is_default = models.BooleanField(
         _("Default"), default=False, help_text=_("Make this the default currency.")
     )
+
+    selling_rates:"QuerySet[ExchangeRate]"
 
     class Meta:
         verbose_name = _("Currency")
@@ -74,11 +77,6 @@ class Currency(models.Model):
             new_rate.save()
             return new_rate.rate
 
-    def to_default(self, value):
-        """
-        Convert a value in the current currency to the value in the default currenty.
-        """
-        return self.to_currency(value, default_currency())
 
     def to_currency(self, value, currency, date=datetime.date.today()):
         """
@@ -90,6 +88,8 @@ class Currency(models.Model):
         # if not currency.is_default:
         #     result *= currency.current_rate(to_currency=currency)
         # return result
+
+    to_default = partialmethod(to_currency, default_currency())
 
 
 class ExchangeRate(models.Model):

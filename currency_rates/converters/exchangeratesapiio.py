@@ -1,14 +1,21 @@
 # from https://exchangeratesapi.io/documentation/
 
 import datetime
+import logging
 from decimal import Decimal
 
 import requests
+from currency_rates.exceptions import APILimitReached
 from django.conf import settings
+from requests.exceptions import JSONDecodeError as RequestsJSONDecodeError
 
-EXCHANGERATESAPIIO_API_KEY = getattr(
-    settings, "EXCHANGERATESAPIIO_API_KEY", "YOURAPIKEYHERE"
-)
+logger = logging.getLogger(__name__)
+
+# EXCHANGERATESAPIIO_API_KEY = getattr(
+#     settings, "EXCHANGERATESAPIIO_API_KEY", "YOURAPIKEYHERE"
+# )
+
+EXCHANGERATESAPIIO_API_KEY = "OL5dkSwVprfzUxCzJ2c66Oohd4H6XG0q"
 
 
 def get_rate(
@@ -21,13 +28,26 @@ def get_rate(
     elif type(date) == datetime.datetime:
         url += f"&date={date.strftime('%Y-%m-%d')}"
 
+    logger.debug(f"Trying url {url}")
     payload = {}
     headers = {"apikey": EXCHANGERATESAPIIO_API_KEY}
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
     status_code = response.status_code
-    result = response.json()
+    try:
+
+        result = response.json()
+    except RequestsJSONDecodeError:
+        raise Exception(
+            f"Cannot decode JSON from the url {url} the response is : {response}"
+        )
+
+    if (
+        result["message"]
+        == "You have exceeded your daily/monthly API rate limit. Please review and upgrade your subscription plan at https://promptapi.com/subscriptions to continue."
+    ):
+        raise APILimitReached(result["message"])
     return Decimal(result["result"])
 
 

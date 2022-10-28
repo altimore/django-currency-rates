@@ -1,3 +1,6 @@
+import datetime
+
+
 class ExchangeRateNotFound(Exception):
     """Exception raised for errors in the rate inquired.
 
@@ -22,3 +25,6 @@ class ExchangeRateNotFound(Exception):
 
     def __str__(self):
         return f"Error when inquiring the rate of exchange from {self.currency_sold} to {self.currency_bought} on the {self.date}."
+
+class APILimitReached(Exception):
+    pass
