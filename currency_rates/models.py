@@ -30,16 +30,16 @@ class Currency(models.Model):
     def __str__(self):
         return self.code
 
-    def save(self, **kwargs):
-        if self.is_default:
-            try:
-                default_currency = Currency.objects.get(is_default=True)
-            except self.DoesNotExist:
-                pass
-            else:
-                default_currency.is_default = False
-                default_currency.save()
-        super(Currency, self).save(**kwargs)
+    # def save(self, **kwargs):
+    #     if self.is_default:
+    #         try:
+    #             default_currency = Currency.objects.get(is_default=True)
+    #         except self.DoesNotExist:
+    #             pass
+    #         else:
+    #             default_currency.is_default = False
+    #             default_currency.save()
+    #     super(Currency, self).save(**kwargs)
 
     def current_rate(self, to_currency):
         return self.get_rate(to_currency)

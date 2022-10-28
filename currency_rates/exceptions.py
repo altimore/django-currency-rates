@@ -20,11 +20,13 @@ class ExchangeRateNotFound(Exception):
         self.currency_bought = currency_bought
         self.currency_sold = currency_sold
         self.date = date
+        self.message = message
 
-        super().__init__(*args, **kwargs)
+        super().__init__()
 
     def __str__(self):
-        return f"Error when inquiring the rate of exchange from {self.currency_sold} to {self.currency_bought} on the {self.date}."
+        return f"Error when inquiring the rate of exchange from {self.currency_sold} to {self.currency_bought} on the {self.date} {self.message}."
+
 
 class APILimitReached(Exception):
     pass
