@@ -1,3 +1,9 @@
+## 0.9.3 (2022-10-28)
+
+### Fix
+
+- added the build details in pyproject
+
 ## 0.9.2 (2022-10-28)
 
 ### Fix
