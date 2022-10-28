@@ -9,21 +9,6 @@ from django.utils.translation import gettext_lazy as _
 from .converters import get_rate
 
 
-def default_currency():
-    try:
-        return Currency.objects.get(is_default=True)
-    except Currency.DoesNotExist:
-        pass
-
-    DEFAULT_CODE = getattr(settings, "CURRENCY_RATES_DEFAULT_CODE", "EUR")
-    try:
-        return Currency.objects.get(code=DEFAULT_CODE)
-    except Currency.DoesNotExist:
-        pass
-
-    return None
-
-
 class Currency(models.Model):
     code = models.CharField(_("Code"), max_length=3, unique=True)
     name = models.CharField(_("Name"), max_length=50)
@@ -87,7 +72,22 @@ class Currency(models.Model):
         #     result *= currency.current_rate(to_currency=currency)
         # return result
 
-    to_default = partialmethod(to_currency, default_currency())
+    # to_default = partialmethod(to_currency, default_currency())
+
+
+def default_currency():
+    try:
+        return Currency.objects.get(is_default=True)
+    except Currency.DoesNotExist:
+        pass
+
+    DEFAULT_CODE = getattr(settings, "CURRENCY_RATES_DEFAULT_CODE", "EUR")
+    try:
+        return Currency.objects.get(code=DEFAULT_CODE)
+    except Currency.DoesNotExist:
+        pass
+
+    return None
 
 
 class ExchangeRate(models.Model):

@@ -4,11 +4,8 @@ from decimal import Decimal
 from currency_rates.exceptions import APILimitReached
 from rich.console import Console
 
-import exchangeratesapiio
-import exchangeratesorguk
-
-# from .exchangeratesapiio import get_rate as get_rate_exchangeratesapiio
-# from .exchangeratesorguk import get_rate as get_rate_exchangeratesorguk
+from .exchangeratesapiio import get_rate as get_rate_exchangeratesapiio
+from .exchangeratesorguk import get_rate as get_rate_exchangeratesorguk
 
 # from alphavantage import get_rate as get_rate_alphavantage
 
@@ -20,14 +17,14 @@ def get_rate(
 ) -> Decimal:
     # here we iterate throught the differents api to get the rate.
     try:
-        rate = exchangeratesapiio.get_rate(
+        rate = get_rate_exchangeratesapiio(
             from_currency=from_currency,
             to_currency=to_currency,
             amount=amount,
             date=date,
         )
     except APILimitReached:
-        rate = exchangeratesorguk.get_rate(
+        rate = get_rate_exchangeratesorguk(
             from_currency=from_currency,
             to_currency=to_currency,
             amount=amount,
