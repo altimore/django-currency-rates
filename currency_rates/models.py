@@ -5,7 +5,6 @@ from functools import partialmethod
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from forex_python.converter import CurrencyRates, RatesNotAvailableError
 
 from .converters import get_rate
 
@@ -33,7 +32,7 @@ class Currency(models.Model):
         _("Default"), default=False, help_text=_("Make this the default currency.")
     )
 
-    selling_rates:"QuerySet[ExchangeRate]"
+    selling_rates: "QuerySet[ExchangeRate]"
 
     class Meta:
         verbose_name = _("Currency")
@@ -76,7 +75,6 @@ class Currency(models.Model):
             )
             new_rate.save()
             return new_rate.rate
-
 
     def to_currency(self, value, currency, date=datetime.date.today()):
         """
