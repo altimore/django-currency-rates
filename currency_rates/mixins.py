@@ -1,13 +1,26 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views.generic import View
 
 from currency_rates.exceptions import ExchangeRateNotFound
 
 
-class ExchangeRateNotFoundRedirectMixin(object):
-    def get(self, request, *args, **kwargs):
+class ExchangeRateNotFoundRedirectMixin(View):
+    """
+    Catch the ExchangeRateNotFound exception and redirect to a form to manually input the rate.
+    Usage:
+
+    class ProductDetailView(
+        ExchangeRateNotFoundRedirectMixin,
+        DetailView,
+    ):
+       ...
+
+    """
+
+    def dispatch(self, request, *args, **kwargs):
         try:
-            super.get(request, *args, **kwargs)
+            return super().dispatch(request, *args, **kwargs)
         except ExchangeRateNotFound as e:
             return HttpResponseRedirect(
                 reverse(
@@ -18,4 +31,6 @@ class ExchangeRateNotFoundRedirectMixin(object):
                         "date": e.date,
                     },
                 )
+                + "?next="
+                + request.get_full_path()
             )

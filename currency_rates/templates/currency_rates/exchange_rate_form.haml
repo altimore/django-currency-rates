@@ -1,0 +1,14 @@
+- load i18n
+
+%h1
+  - trans "Missing change rate"
+%p
+  - trans "The Exchange rate is missing, please input it before accessing the page"
+  = return_url
+
+
+%form.form-horizontal{'method':'POST', 'action':'={request.path}','role':'form','enctype':'multipart/form-data'}
+  - csrf_token
+  = form 
+  %input(type="submit" value="Submit")
+
