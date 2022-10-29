@@ -1,3 +1,9 @@
+## 0.11.0 (2022-10-29)
+
+### Feat
+
+- Added an view mixin to handle the Exchange rate not found exception and a form to input it manually.
+
 ## 0.10.1 (2022-10-29)
 
 ### Fix
