@@ -43,11 +43,16 @@ def get_rate(
             f"Cannot decode JSON from the url {url} the response is : {response}"
         )
 
-    if (
-        result["message"]
-        == "You have exceeded your daily/monthly API rate limit. Please review and upgrade your subscription plan at https://promptapi.com/subscriptions to continue."
-    ):
-        raise APILimitReached(result["message"])
+    try:
+        if (
+            result["message"]
+            == "You have exceeded your daily/monthly API rate limit. Please review and upgrade your subscription plan at https://promptapi.com/subscriptions to continue."
+        ):
+            raise APILimitReached(result["message"])
+    except KeyError:
+        # there is no error message
+        pass
+    
     return Decimal(result["result"])
 
 
