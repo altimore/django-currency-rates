@@ -1,3 +1,9 @@
+## 0.11.1 (2022-11-01)
+
+### Fix
+
+- catching key error when there is no error mesage in the json response
+
 ## 0.11.0 (2022-10-29)
 
 ### Feat
