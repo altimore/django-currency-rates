@@ -4,12 +4,17 @@ from decimal import Decimal
 from currency_rates.exceptions import APILimitReached, ExchangeRateNotFound
 from rich.console import Console
 
-from .alphavantage import get_rate as get_rate_alphavantage
+# from .alphavantage import get_rate as get_rate_alphavantage
+from .currencyapicom import get_rate as get_rate_currencyapicom
 from .exchangeratesapiio import get_rate as get_rate_exchangeratesapiio
 from .exchangeratesorguk import get_rate as get_rate_exchangeratesorguk
 
 console = Console()
-
+'''
+eventually for later
+https://www.abstractapi.com/api/exchange-rate-api#pricing
+https://currency.getgeoapi.com/currency-plans/
+'''
 
 def get_rate(
     from_currency, to_currency, amount=1, date=datetime.date.today()
@@ -23,20 +28,23 @@ def get_rate(
             date=date,
         )
     except APILimitReached:
-        # try:
-        rate = get_rate_exchangeratesorguk(
-            from_currency=from_currency,
-            to_currency=to_currency,
-            amount=amount,
-            date=date,
-        )
-        # except ExchangeRateNotFound:
-        #     # rate = get_rate_alphavantage(
-        #     #     from_currency=from_currency,
-        #     #     to_currency=to_currency,
-        #     #     amount=amount,
-        #     #     date=date,
-        #     # )
+        try:
+            rate = get_rate_currencyapicom(
+                from_currency=from_currency,
+                to_currency=to_currency,
+                amount=amount,
+                date=date,
+            )
+        except APILimitReached:
+            #try:
+            rate = get_rate_exchangeratesorguk(
+                from_currency=from_currency,
+                to_currency=to_currency,
+                amount=amount,
+                date=date,
+            )
+            # except ExchangeRateNotFound:
+
     if rate:
         return rate
     else:
