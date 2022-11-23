@@ -1,3 +1,9 @@
+## 0.12.0 (2022-11-23)
+
+### Feat
+
+- added another currency provider.
+
 ## 0.11.1 (2022-11-01)
 
 ### Fix
