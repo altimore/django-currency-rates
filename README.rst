@@ -46,7 +46,8 @@ Extra
 =======
 If you use django-select2 you can use the widgets as follow :
 
-.. code-block:: python
+
+```
     from companies.widgets import OrganizationWidget
     from currency_rates.widgets import CurrencyWidget
 
@@ -59,3 +60,4 @@ If you use django-select2 you can use the widgets as follow :
                 "bank": OrganizationWidget,
                 "currency": CurrencyWidget,
             }
+```
