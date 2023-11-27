@@ -45,17 +45,17 @@ Add to your settings.py :
 Extra
 =======
 If you use django-select2 you can use the widgets as follow :
-```
-from companies.widgets import OrganizationWidget
-from currency_rates.widgets import CurrencyWidget
 
-class BankAccountForm(forms.ModelForm):
-    class Meta:
-        model = BankAccount
-        fields = "__all__"
-        widgets = {
-            "company": OrganizationWidget,
-            "bank": OrganizationWidget,
-            "currency": CurrencyWidget,
-        }
-```
+.. code-block:: python
+    from companies.widgets import OrganizationWidget
+    from currency_rates.widgets import CurrencyWidget
+
+    class BankAccountForm(forms.ModelForm):
+        class Meta:
+            model = BankAccount
+            fields = "__all__"
+            widgets = {
+                "company": OrganizationWidget,
+                "bank": OrganizationWidget,
+                "currency": CurrencyWidget,
+            }
