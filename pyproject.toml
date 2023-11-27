@@ -1,22 +1,20 @@
 [tool.poetry]
 name = "django-currency_rates"
-version = "0.12.1"
+version = "0.12.3"
 description = "Currencies & echange rates for django projects"
 license = "GPL"
 classifiers = [
-            "Development Status :: 5 - Production/Stable",
-            "Environment :: Web Environment",
-            "Framework :: Django",
-            "Intended Audience :: Developers",
-            "License :: OSI Approved :: GNU General Public License (GPL)",
-            "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
-            ]
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU General Public License (GPL)",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
 homepage = "http://bitbucket.org/ferranp/django-currency-rates"
 authors = ["Ferran Pegueroles <ferran@pegueroles.com>"]
 readme = "README.rst"
-packages = [
-    { include = "currency_rates" },
-]
+packages = [{ include = "currency_rates" }]
 
 [tool.poetry.dependencies]
 python = "^3.9.6"
@@ -35,9 +33,7 @@ commitizen = "^2.36.0"
 name = "cz_conventional_commits"
 version = "0.12.0"
 tag_format = "$version"
-version_files = [
-  "pyproject.toml:version",
-]
+version_files = ["pyproject.toml:version"]
 
 [build-system]
 requires = ["poetry>=0.12"]

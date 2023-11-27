@@ -21,7 +21,6 @@ EXCHANGERATESAPIIO_API_KEY = "OL5dkSwVprfzUxCzJ2c66Oohd4H6XG0q"
 def get_rate(
     from_currency, to_currency, amount=1, date=datetime.date.today()
 ) -> Decimal:
-
     url = f"https://api.apilayer.com/exchangerates_data/convert?to={to_currency}&from={from_currency}&amount={amount}"
     if type(date) == str:
         url += f"&date={date}"
@@ -35,8 +34,9 @@ def get_rate(
     response = requests.request("GET", url, headers=headers, data=payload)
 
     status_code = response.status_code
+    if status_code == 524:
+        raise TimeoutError()
     try:
-
         result = response.json()
     except RequestsJSONDecodeError:
         raise Exception(
@@ -52,7 +52,7 @@ def get_rate(
     except KeyError:
         # there is no error message
         pass
-    
+
     return Decimal(result["result"])
 
 
