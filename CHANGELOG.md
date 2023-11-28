@@ -1,3 +1,22 @@
+## 0.13.1 (2023-11-28)
+
+### Fix
+
+- updated github ci script to bump version and generate changelog
+- readme not displayed correctly
+
+## 0.13.0 (2023-11-27)
+
+### Feat
+
+- trying to autobump on push
+
+### Fix
+
+- error in the readme syntax
+- added a check to ignore exchangerateapiio if response is 524
+- updated the pre-commit to the latest version
+
 ## 0.12.0 (2022-11-23)
 
 ### Feat
