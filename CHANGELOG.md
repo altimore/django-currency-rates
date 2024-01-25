@@ -1,3 +1,9 @@
+## 0.13.5 (2024-01-25)
+
+### Fix
+
+- updated the currencyapicom parser
+
 ## 0.13.4 (2024-01-25)
 
 ### Fix
