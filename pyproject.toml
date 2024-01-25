@@ -23,6 +23,7 @@ django-select2 = "^7.10.0"
 requests = "^2.31.0"
 beautifulsoup4 = "^4.12.2"
 rich = "^13.7.0"
+django-stubs = "^4.2.7"
 
 [tool.poetry.group.dev.dependencies]
 commitizen = "^3.12.0"

@@ -5,9 +5,10 @@ import logging
 from decimal import Decimal
 
 import requests
-from currency_rates.exceptions import APILimitReached
 from django.conf import settings
 from requests.exceptions import JSONDecodeError as RequestsJSONDecodeError
+
+from currency_rates.exceptions import APILimitReached
 
 logger = logging.getLogger(__name__)
 
@@ -30,9 +31,10 @@ def get_rate(
 
     url = f"{REQUEST_URL}?apikey={CURRENCYAPICOM_API_KEY}&base_currency={from_currency}&currencies={to_currency}"
 
+    # print("!", date, type(date))
     if type(date) == str:
         url += f"&date={date}"
-    elif type(date) == datetime.date:
+    elif type(date) == datetime.datetime:
         url += f"&date={date.strftime('%Y-%m-%d')}"
 
     logger.debug(f"Trying url {url}")
@@ -40,6 +42,7 @@ def get_rate(
     # headers = {"apikey": EXCHANGERATESAPIIO_API_KEY}
     headers = {}
 
+    # print("#", url)
     response = requests.request("GET", url, headers=headers, data=payload)
 
     status_code = response.status_code
@@ -49,14 +52,13 @@ def get_rate(
         )
 
     try:
-
         result = response.json()
     except RequestsJSONDecodeError:
         raise Exception(
             f"Cannot decode JSON from the url {url} the response is : {response}"
         )
 
-    # print(result)
+    # print("*", result)
     return Decimal(result["data"][to_currency]["value"])
 
 

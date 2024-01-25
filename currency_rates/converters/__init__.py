@@ -1,8 +1,9 @@
 import datetime
 from decimal import Decimal
 
-from currency_rates.exceptions import APILimitReached, ExchangeRateNotFound
 from rich.console import Console
+
+from currency_rates.exceptions import APILimitReached, ExchangeRateNotFound
 
 # from .alphavantage import get_rate as get_rate_alphavantage
 from .currencyapicom import get_rate as get_rate_currencyapicom
@@ -59,7 +60,7 @@ if __name__ == "__main__":
 
     amount = 1
 
-    print("Testing differents providers for the Exchange rate APIs.", log_locals=True)
+    print("Testing differents providers for the Exchange rate APIs.")
     # print("Test data EUR->MUR on 01-01-2022")
 
     print(

@@ -61,3 +61,7 @@ If you use django-select2 you can use the widgets as follow :
                 "currency": CurrencyWidget,
             }
 ```
+
+Testing if it works
+======================
+``poetry run python -m currency_rates.converters.__init__``
