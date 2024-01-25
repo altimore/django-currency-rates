@@ -21,9 +21,6 @@ import logging
 from rich.logging import RichHandler
 
 FORMAT = "%(message)s"
-logging.basicConfig(
-    level="INFO", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
-)
 
 log = logging.getLogger("rich")
 
@@ -69,6 +66,10 @@ def get_rate(
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level="INFO", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+    )
+
     from_currency = "ZAR"
     to_currency = "EUR"
     date = datetime.datetime.fromisoformat("2022-01-01")
