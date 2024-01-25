@@ -1,3 +1,9 @@
+## 0.13.7 (2024-01-25)
+
+### Fix
+
+- do not request change rate to itself
+
 ## 0.13.6 (2024-01-25)
 
 ### Fix
