@@ -1,3 +1,9 @@
+## 0.13.6 (2024-01-25)
+
+### Fix
+
+- Updated the logging in the currency_rates application
+
 ## 0.13.5 (2024-01-25)
 
 ### Fix
