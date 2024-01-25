@@ -5,9 +5,10 @@ import logging
 from decimal import Decimal
 
 import requests
-from currency_rates.exceptions import APILimitReached
 from django.conf import settings
 from requests.exceptions import JSONDecodeError as RequestsJSONDecodeError
+
+from currency_rates.exceptions import APILimitReached
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ def get_rate(
     response = requests.request("GET", url, headers=headers, data=payload)
 
     status_code = response.status_code
-    if status_code == 524:
+    if status_code == 524 or status_code == 522:
         raise TimeoutError()
     try:
         result = response.json()
