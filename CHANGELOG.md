@@ -1,3 +1,9 @@
+## 0.13.4 (2024-01-25)
+
+### Fix
+
+- added 522 as timeout error on exchangerateapi.io
+
 ## 0.13.3 (2023-12-05)
 
 ### Fix
