@@ -16,6 +16,16 @@ eventually for later
 https://www.abstractapi.com/api/exchange-rate-api#pricing
 https://currency.getgeoapi.com/currency-plans/
 """
+import logging
+
+from rich.logging import RichHandler
+
+FORMAT = "%(message)s"
+logging.basicConfig(
+    level="INFO", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+)
+
+log = logging.getLogger("rich")
 
 
 def get_rate(
@@ -37,7 +47,7 @@ def get_rate(
                 amount=amount,
                 date=date,
             )
-        except APILimitReached:
+        except (APILimitReached, OSError):
             # try:
             rate = get_rate_exchangeratesorguk(
                 from_currency=from_currency,
@@ -50,27 +60,31 @@ def get_rate(
     if rate:
         return rate
     else:
-        raise Exception("No change rate found, please add new exchangerate provider.")
+        raise ExchangeRateNotFound(
+            "No change rate found, please add new exchangerate provider."
+        )
 
 
 if __name__ == "__main__":
-    from_currency = "EUR"
-    to_currency = "MUR"
+    from_currency = "ZAR"
+    to_currency = "EUR"
     date = datetime.datetime.fromisoformat("2022-01-01")
-
     amount = 1
 
-    print("Testing differents providers for the Exchange rate APIs.")
-    # print("Test data EUR->MUR on 01-01-2022")
+    log.info("Testing differents providers for the Exchange rate APIs.")
+    # log.info(f"Test data {from_currency}->{to_currency} on {date}")
 
-    print(
-        get_rate(
+    try:
+        rate = get_rate(
             from_currency=from_currency,
             to_currency=to_currency,
             amount=amount,
-            date=date,
+            # date=date,
         )
-    )
+        print(f"Rate from {from_currency} to {to_currency} on {date} is {rate}")
+
+    except ExchangeRateNotFound as e:
+        log.error(e)
 
     # console.rule("[bold red]exchangeratesapi.io")
     # # print("exchangeratesapi.io")

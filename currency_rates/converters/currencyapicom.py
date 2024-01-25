@@ -24,6 +24,9 @@ LATEST_RATE_URL = "https://api.currencyapi.com/v3/latest"
 def get_rate(
     from_currency, to_currency, amount=1, date=datetime.date.today()
 ) -> Decimal:
+    logger.info(
+        f"Trying to get rate from {from_currency} to {to_currency} on {date} with CurrencyAPI.com"
+    )
     REQUEST_URL = LATEST_RATE_URL
 
     if date != datetime.date.today():
@@ -46,6 +49,11 @@ def get_rate(
     response = requests.request("GET", url, headers=headers, data=payload)
 
     status_code = response.status_code
+
+    if status_code == 422:
+        raise OSError(
+            f"Cannot decode JSON from the url {url} the response is : {response}"
+        )
     if status_code == 429:
         raise APILimitReached(
             "You have hit your rate limit or your monthly limit. For more requests please upgrade your plan (opens new window)."

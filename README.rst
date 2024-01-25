@@ -36,7 +36,7 @@ if installed remove the previous version
 #. Add ``OPENEXCHANGERATES_APP_ID`` to your setting file with an app key from http://openexchangerates.org/
 #. Run ``manage.py migrate``
 #. Run ``manage.py load_currencies`` to load currencies from http://openexchangerates.org/
-#. Run ``manage.py load_rates`` to load current eschange rates from http://openexchangerates.org/
+#. Run ``manage.py load_rates`` to load current exchange rates from http://openexchangerates.org/
 
 
 Add to your settings.py :
@@ -64,4 +64,9 @@ If you use django-select2 you can use the widgets as follow :
 
 Testing if it works
 ======================
-``poetry run python -m currency_rates.converters.__init__``
+``poetry run python -m currency_rates.converters.__init__`` or individually by converter name
+
+Updating the code
+====================
+Make your changes, commit these, then run ``poetry run cz bump --changelog`` to update the changelog and bump the version number.
+Then ``git push`` to send to the server.

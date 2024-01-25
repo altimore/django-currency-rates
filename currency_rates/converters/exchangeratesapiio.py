@@ -22,6 +22,9 @@ EXCHANGERATESAPIIO_API_KEY = "OL5dkSwVprfzUxCzJ2c66Oohd4H6XG0q"
 def get_rate(
     from_currency, to_currency, amount=1, date=datetime.date.today()
 ) -> Decimal:
+    logger.info(
+        f"Trying to get rate from {from_currency} to {to_currency} on {date} with ExchangeRatesAPI.io"
+    )
     url = f"https://api.apilayer.com/exchangerates_data/convert?to={to_currency}&from={from_currency}&amount={amount}"
     if type(date) == str:
         url += f"&date={date}"
@@ -40,7 +43,7 @@ def get_rate(
     try:
         result = response.json()
     except RequestsJSONDecodeError:
-        raise Exception(
+        raise OSError(
             f"Cannot decode JSON from the url {url} the response is : {response}"
         )
 
