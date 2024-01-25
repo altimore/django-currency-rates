@@ -31,6 +31,9 @@ log = logging.getLogger("rich")
 def get_rate(
     from_currency, to_currency, amount=1, date=datetime.date.today()
 ) -> Decimal:
+    if from_currency == to_currency:
+        return Decimal(amount)
+
     # here we iterate throught the differents api to get the rate.
     try:
         rate = get_rate_exchangeratesapiio(
