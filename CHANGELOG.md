@@ -1,3 +1,9 @@
+## 0.13.9 (2024-01-29)
+
+### Fix
+
+- the html has changed on exchangeratesorguk.py
+
 ## 0.13.8 (2024-01-25)
 
 ### Fix
