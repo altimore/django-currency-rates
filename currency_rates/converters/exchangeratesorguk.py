@@ -5,6 +5,7 @@ from decimal import Decimal
 
 import requests
 from bs4 import BeautifulSoup
+from rich.logging import RichHandler
 
 from currency_rates.exceptions import ExchangeRateNotFound
 
@@ -44,12 +45,11 @@ class ExchangeRatesOrgUk:
         logger.debug(monthly_table)
 
         # print(monthly_tag, monthly_table)
-        logger.debug(
-            f"Looking for /{self.from_currency_code}-{self.to_currency_code}-{self.date.strftime('%d_%m_%Y')}-exchange-rate-history.html"
-        )
-        daily_rate_link_tag = monthly_table.find(
-            href=f"/{self.from_currency_code}-{self.to_currency_code}-{self.date.strftime('%d_%m_%Y')}-exchange-rate-history.html"
-        )
+        # href = f"/{self.from_currency_code}-{self.to_currency_code}-{self.date.strftime('%d_%m_%Y')}-exchange-rate-history.html"
+        href = f"/historical/{self.from_currency_code}/{self.date.strftime('%d_%m_%Y')}"
+        logger.debug(f"Looking for href: {href}")
+
+        daily_rate_link_tag = monthly_table.find(href=href)
         try:
             change_rate_text = daily_rate_link_tag.parent.previous_sibling.text
         except:
@@ -75,7 +75,12 @@ def get_rate(
 
 
 if __name__ == "__main__":
-    date = datetime.date(2019, 12, 19)
-    date = datetime.date.today()
-    rate = ExchangeRatesOrgUk("MUR", "USD", date)
+    logging.basicConfig(level=logging.DEBUG, handlers=[RichHandler()])
+
+    # logging.basicConfig(
+    #     level="INFO", format=FORMAT, datefmt="[%X]"]
+    # )
+    date = datetime.date(2024, 1, 27)
+    # date = datetime.date.today()
+    rate = ExchangeRatesOrgUk("EUR", "MUR", date)
     print(date, rate.get_rate())
