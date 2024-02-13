@@ -14,7 +14,7 @@ class ExchangeRateNotFoundRedirectMixin(View):
         ExchangeRateNotFoundRedirectMixin,
         DetailView,
     ):
-       ...
+        ...
 
     """
 
