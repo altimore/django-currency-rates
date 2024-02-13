@@ -17,17 +17,17 @@ readme = "README.rst"
 packages = [{ include = "currency_rates" }]
 
 [tool.poetry.dependencies]
-python = "^3.9.6"
-Django = "^4.2.7"
+python = "^3.11"
+Django = "^5.0.2"
 django-select2 = "^7.10.0"
 requests = "^2.31.0"
-beautifulsoup4 = "^4.12.2"
+beautifulsoup4 = "^4.12.3"
 rich = "^13.7.0"
 django-stubs = "^4.2.7"
 
 [tool.poetry.group.dev.dependencies]
-commitizen = "^3.12.0"
-pre-commit = "^3.4.0"
+commitizen = "^3.14.1"
+pre-commit = "^3.6.1"
 
 
 [tool.commitizen]
