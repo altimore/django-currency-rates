@@ -17,7 +17,8 @@ readme = "README.rst"
 packages = [{ include = "currency_rates" }]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12 || ^3.11 || ^3.10"
+
 Django = "^5.0.2"
 django-select2 = "^7.10.0"
 requests = "^2.31.0"
